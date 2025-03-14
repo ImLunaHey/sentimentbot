@@ -2,10 +2,14 @@
   "dependencies": {
     "@skyware/bot": "^0.3.10",
     "dotenv": "^16.4.7",
-    "sentiment": "^5.0.2"
+    "sentiment": "^5.0.2",
+    "tsx": "^4.19.3"
   },
   "devDependencies": {
     "@types/node": "^22.13.10",
     "@types/sentiment": "^5.0.4"
+  },
+  "scripts": {
+    "start": "tsx index.ts"
   }
 }
