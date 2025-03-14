@@ -130,6 +130,16 @@ const main = async () => {
       );
     } catch (error) {
       console.error(`error analyzing user ${user}: ${error}`);
+      await mention
+        .reply(
+          {
+            text: `Sorry I hit an error while analyzing your sentiment. @imlunahey.com please fix me.`,
+          },
+          { resolveFacets: true },
+        )
+        .catch((err) => {
+          console.error(`error replying to user ${user}: ${err}`);
+        });
     }
   });
 };
