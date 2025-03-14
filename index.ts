@@ -107,26 +107,30 @@ const main = async () => {
 
   bot.on('mention', async (mention) => {
     const user = mention.author.handle;
-    console.info(`analyzing user ${user}`);
+    try {
+      console.info(`analyzing user ${user}`);
 
-    // fetch the user's last 100 posts
-    const posts = await bot
-      .getUserPosts(user, {
-        limit: 100,
-      })
-      .then((res) => res.posts);
+      // fetch the user's last 100 posts
+      const posts = await bot
+        .getUserPosts(user, {
+          limit: 100,
+        })
+        .then((res) => res.posts);
 
-    const score = analyzeSentimentScore(posts.map((post) => post.text));
-    const userSentiment = analyzeSentiment(score);
+      const score = analyzeSentimentScore(posts.map((post) => post.text));
+      const userSentiment = analyzeSentiment(score);
 
-    console.info(`${user} has a sentiment score of ${score} (${userSentiment})`);
+      console.info(`${user} has a sentiment score of ${score} (${userSentiment})`);
 
-    await mention.reply(
-      {
-        text: generateSentimentResponse(user, userSentiment, 100),
-      },
-      { resolveFacets: true },
-    );
+      await mention.reply(
+        {
+          text: generateSentimentResponse(user, userSentiment, 100),
+        },
+        { resolveFacets: true },
+      );
+    } catch (error) {
+      console.error(`error analyzing user ${user}: ${error}`);
+    }
   });
 };
 
