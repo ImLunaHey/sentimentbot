@@ -133,7 +133,7 @@ const main = async () => {
       await mention
         .reply(
           {
-            text: `Sorry I hit an error while analyzing your sentiment. @imlunahey.com please fix me.`,
+            text: `Sorry I hit an error while analyzing your sentiment. The creator has been notified.`,
           },
           { resolveFacets: true },
         )
