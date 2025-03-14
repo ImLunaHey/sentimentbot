@@ -20,29 +20,34 @@ type SentimentCategory = (typeof SENTIMENT_CATEGORIES)[number][1];
 const sentimentAnalyzer = new Sentiment();
 
 /**
- * Analyzes an array of strings and returns a human-readable sentiment category
+ * Analyzes an array of strings and returns a sentiment score between -1 and 1
  *
  * @param texts - Array of strings to analyze
  * @param options - Optional configuration for sentiment analysis
- * @returns A sentiment category describing the overall tone
+ * @returns A sentiment score between -1 and 1
  */
-export function analyzeSentiment(
+export function analyzeSentimentScore(
   texts: string[],
   options?: {
     language?: string;
     extras?: Record<string, number>;
   },
-): SentimentCategory {
-  // Calculate the average comparative score using functional approach
-  const averageComparative =
-    texts.length > 0
-      ? texts.map((text) => sentimentAnalyzer.analyze(text, options).comparative).reduce((sum, score) => sum + score, 0) /
+): number {
+  return texts.length > 0
+    ? texts.map((text) => sentimentAnalyzer.analyze(text, options).comparative).reduce((sum, score) => sum + score, 0) /
         texts.length
-      : 0;
-
-  // Map the comparative score to a human-readable category using find
-  return SENTIMENT_CATEGORIES.find(([threshold]) => averageComparative <= threshold)?.[1] ?? 'neutral';
+    : 0;
 }
+
+/**
+ * Analyzes an array of strings and returns a sentiment category
+ *
+ * @param score - A sentiment score between -1 and 1
+ * @returns A sentiment category
+ */
+const analyzeSentiment = (score: number): SentimentCategory => {
+  return SENTIMENT_CATEGORIES.find(([threshold]) => score <= threshold)?.[1] ?? 'neutral';
+};
 
 /**
  * Generates a personalized message based on the user's sentiment analysis
@@ -111,8 +116,10 @@ const main = async () => {
       })
       .then((res) => res.posts);
 
-    // var result = sentiment.analyze('Cats are stupid.');
-    const userSentiment = analyzeSentiment(posts.map((post) => post.text));
+    const score = analyzeSentimentScore(posts.map((post) => post.text));
+    const userSentiment = analyzeSentiment(score);
+
+    console.info(`${user} has a sentiment score of ${score} (${userSentiment})`);
 
     await mention.reply(
       {
