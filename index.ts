@@ -8,7 +8,7 @@ const password = process.env.BLUESKY_PASSWORD;
 if (!username || !password) throw new Error('BLUESKY_USERNAME and BLUESKY_PASSWORD must be set');
 
 const SENTIMENT_CATEGORIES = [
-  [-Infinity, 'very mean'], // Extremely negative content
+  [-3, 'very mean'], // Extremely negative content
   [-0.25, 'mean'], // Moderately negative content
   [-0.1, 'neutral'], // Slightly negative to neutral
   [0.1, 'nice'], // Slightly positive to neutral
