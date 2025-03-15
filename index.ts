@@ -110,9 +110,21 @@ const main = async () => {
     try {
       console.info(`analyzing user ${user}`);
 
+      // fetch the user's profile
+      const profile = await bot.getProfile(user);
+      const did = profile.did;
+
+      // fetch the user's repo
+      const repo = await fetch(`https://plc.directory/${did}`).then(
+        (response) => response.json() as Promise<{ service: { id: string; serviceEndpoint: string }[] }>,
+      );
+
+      // get the pds url
+      const pdsUrl = repo.service?.find((service) => service.id === '#atproto_pds')?.serviceEndpoint;
+
       // fetch the user's last 100 posts
       const response = await fetch(
-        `https://bsky.social/xrpc/com.atproto.repo.listRecords?collection=app.bsky.feed.post&repo=${user}&limit=100`,
+        `${pdsUrl}/xrpc/com.atproto.repo.listRecords?collection=app.bsky.feed.post&repo=${user}&limit=100`,
       ).then((response) => response.json() as Promise<{ records: { value: unknown }[] }>);
       const records = response.records.map((record) => record.value);
 
