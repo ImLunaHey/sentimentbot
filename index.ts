@@ -82,7 +82,7 @@ export function generateSentimentResponse(username: string, sentiment: Sentiment
     'very nice': {
       message: `Wow! Your last ${postCount} posts show consistently positive and supportive communication.`,
       suggestion: 'Your positive attitude makes the community a better place for everyone.',
-      emoji: '😄',
+      emoji: '🥰',
     },
   };
 
