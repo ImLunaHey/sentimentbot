@@ -111,13 +111,21 @@ const main = async () => {
       console.info(`analyzing user ${user}`);
 
       // fetch the user's last 100 posts
-      const posts = await bot
-        .getUserPosts(user, {
-          limit: 100,
-        })
-        .then((res) => res.posts);
+      const response = await fetch(
+        `https://bsky.social/xrpc/com.atproto.repo.listRecords?collection=app.bsky.feed.post&repo=${user}&limit=100`,
+      ).then((response) => response.json() as Promise<{ records: { value: unknown }[] }>);
+      const records = response.records.map((record) => record.value);
 
-      const score = analyzeSentimentScore(posts.map((post) => post.text));
+      const posts = records.map((record) =>
+        typeof record === 'object' &&
+        record !== null &&
+        Object.keys(record).includes('text') &&
+        typeof (record as { text: unknown }).text === 'string'
+          ? (record as { text: string }).text
+          : '',
+      );
+
+      const score = analyzeSentimentScore(posts);
       const userSentiment = analyzeSentiment(score);
 
       console.info(`${user} has a sentiment score of ${score} (${userSentiment})`);
