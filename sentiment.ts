@@ -361,6 +361,7 @@ export function generateSentimentResponse(username: string, score: number): stri
   const emoji = getSentimentEmoji(score);
   const message = getSentimentMessage(score);
   const suggestion = getSentimentSuggestion(score);
+  const formattedScore = score.toFixed(2);
 
-  return `${emoji} Hey @${username}! ${message} Your sentiment score is ${score} (${sentiment}). ${suggestion}`;
+  return `${emoji} Hey @${username}! ${message} Your sentiment score is ${formattedScore} (${sentiment}). ${suggestion}`;
 }
