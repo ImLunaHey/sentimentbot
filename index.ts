@@ -60,7 +60,7 @@ const main = async () => {
 
       await mention.reply(
         {
-          text: generateSentimentResponse(user, score, 100),
+          text: generateSentimentResponse(user, score),
         },
         { resolveFacets: true },
       );
