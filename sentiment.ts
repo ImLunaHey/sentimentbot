@@ -45,15 +45,13 @@ export function analyzeSentiment(score: number): SentimentCategory {
     if (score <= -3) return 'extremely negative';
     if (score <= -1.5) return 'very negative';
     if (score <= -0.5) return 'negative';
-    if (score <= -0.1) return 'slightly negative';
+    return 'slightly negative';
   } else {
     if (score <= 0.5) return 'slightly positive';
     if (score <= 1.5) return 'positive';
     if (score <= 3) return 'very positive';
     return 'extremely positive';
   }
-
-  throw new Error(`Invalid sentiment score: ${score}`);
 }
 
 /**
@@ -68,7 +66,7 @@ const getSentimentEmoji = (score: number): string => {
     if (score <= -3) return '🤬';
     if (score <= -1.5) return '😡';
     if (score <= -0.5) return '😠';
-    if (score <= -0.1) return '😕';
+    return '😕';
   } else {
     if (score <= 0.1) return '😐';
     if (score <= 0.5) return '🙂';
@@ -76,8 +74,6 @@ const getSentimentEmoji = (score: number): string => {
     if (score <= 3) return '😄';
     return '🥰';
   }
-
-  throw new Error(`Invalid sentiment score: ${score}`);
 };
 
 // Neutral (0)
