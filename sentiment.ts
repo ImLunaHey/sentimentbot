@@ -328,9 +328,9 @@ const extremelyPositiveSuggestions = [
 ];
 
 const getSentimentSuggestion = (score) => {
-  if (score === 0) {
-    return neutralSuggestions;
-  } else if (score < 0) {
+  if (score === 0) return getRandomArrayItem(neutralSuggestions);
+
+  if (score < 0) {
     if (score <= -3) return getRandomArrayItem(extremelyNegativeSuggestions);
     if (score <= -1.5) return getRandomArrayItem(veryNegativeSuggestions);
     if (score <= -0.5) return getRandomArrayItem(moderatelyNegativeSuggestions);
@@ -352,11 +352,11 @@ const getSentimentSuggestion = (score) => {
  * @returns A friendly, personalized message about their sentiment
  */
 export function generateSentimentResponse(username: string, score: number): string {
-  const sentiment = analyzeSentiment(score);
-  const emoji = getSentimentEmoji(score);
-  const message = getSentimentMessage(score);
-  const suggestion = getSentimentSuggestion(score);
-  const formattedScore = score.toFixed(2);
+  const formattedScore = Number(score.toFixed(2));
+  const sentiment = analyzeSentiment(formattedScore);
+  const emoji = getSentimentEmoji(formattedScore);
+  const message = getSentimentMessage(formattedScore);
+  const suggestion = getSentimentSuggestion(formattedScore);
 
   return `${emoji} Hey @${username}! ${message} Your sentiment score is ${formattedScore} (${sentiment}). ${suggestion}`;
 }
