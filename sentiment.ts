@@ -68,8 +68,8 @@ const getSentimentEmoji = (score: number): string => {
     if (score <= -0.5) return '😠';
     return '😕';
   } else {
-    if (score <= 0.1) return '😐';
-    if (score <= 0.5) return '🙂';
+    if (score <= 0.1) return '🙂';
+    if (score <= 0.5) return '😌';
     if (score <= 1.5) return '😊';
     if (score <= 3) return '😄';
     return '🥰';
