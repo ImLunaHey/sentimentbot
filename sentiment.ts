@@ -47,7 +47,6 @@ export function analyzeSentiment(score: number): SentimentCategory {
     if (score <= -0.5) return 'negative';
     if (score <= -0.1) return 'slightly negative';
   } else {
-    if (score <= 0.1) return 'neutral';
     if (score <= 0.5) return 'slightly positive';
     if (score <= 1.5) return 'positive';
     if (score <= 3) return 'very positive';
